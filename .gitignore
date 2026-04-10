@@ -160,3 +160,4 @@ vite.config.ts.timestamp-*
 
 
 credenciales
+SQL_FILES/03_create_user.sql
