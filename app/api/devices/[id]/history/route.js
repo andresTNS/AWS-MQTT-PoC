@@ -39,17 +39,17 @@ export async function GET(request, { params }) {
     const queryParams = [id]
 
     if (startDate) {
-      sql += ' AND timestamp >= ?'
+      sql += ' AND t.timestamp_dispositivo >= ?'
       queryParams.push(startDate)
     }
 
     if (endDate) {
-      sql += ' AND timestamp <= ?'
+      sql += ' AND t.timestamp_dispositivo <= ?'
       queryParams.push(endDate)
     }
 
-    sql += ' ORDER BY timestamp DESC LIMIT ?'
-    queryParams.push(limit)
+    // LIMIT se embebe directamente — mysql2 no acepta LIMIT como parámetro preparado
+    sql += ` ORDER BY t.timestamp_dispositivo DESC LIMIT ${limit}`
 
     const readings = await query(sql, queryParams)
     const transformedReadings = readings.map(transformReading)
